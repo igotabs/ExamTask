@@ -1,0 +1,18 @@
+# escape=`
+
+FROM contiisbuilder
+
+ENTRYPOINT powershell -Command " `
+ Remove-Website -Name 'Default Web Site' ; `
+ New-Website -Name MyApp -PhysicalPath C:\voliis\examtask-publish ; `
+ Stop-Website -Name MyApp ; Start-Website -Name MyApp ; `
+ ping -t localhost > NULL `
+"
+
+HEALTHCHECK --interval=2s `
+ CMD powershell -Command `
+  try { `
+   $result = Get-Service W3SVC ; `
+   if ($result.status -eq 'Running') { exit 0 } `
+   else { exit 1 } ; `
+  } catch { exit 1 }

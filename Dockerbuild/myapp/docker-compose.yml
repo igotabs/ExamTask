@@ -1,0 +1,38 @@
+version: "3.7"
+
+services:
+
+  contsql:
+    image: contsql
+    hostname: contsql
+    container_name: contsql
+    volumes:
+      - c:\volsql:c:\volsql
+    networks:
+      prodnet:
+        ipv4_address: 192.168.3.202
+
+  contiis:
+    image: contiis
+    hostname: contiis
+    container_name: contiis
+    depends_on:
+      - contsql
+    volumes:
+      - c:\voliis:c:\voliis
+    networks:
+      prodnet:
+        ipv4_address: 192.168.3.201
+
+networks:
+
+  prodnet:
+    driver: transparent
+    driver_opts:
+      com.docker.network.windowsshim.dnssuffix: "company.pri"
+      com.docker.network.windowsshim.dnsservers: "192.168.3.10"
+      com.docker.network.windowsshim.interface: "Ethernet 2"
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.3.0/24

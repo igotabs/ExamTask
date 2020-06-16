@@ -6,9 +6,13 @@
 
   <ItemGroup>
     <Compile Remove="Addtional_Resourceses\**" />
+    <Compile Remove="Dockerbuild\**" />
     <Content Remove="Addtional_Resourceses\**" />
+    <Content Remove="Dockerbuild\**" />
     <EmbeddedResource Remove="Addtional_Resourceses\**" />
+    <EmbeddedResource Remove="Dockerbuild\**" />
     <None Remove="Addtional_Resourceses\**" />
+    <None Remove="Dockerbuild\**" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,0 +1,20 @@
+# escape=`
+
+FROM mcr.microsoft.com/windows/servercore:ltsc2019
+
+#ADD source c:\source
+
+
+
+RUN powershell -Command " `
+ Install-WindowsFeature Web-Server,Web-Asp-Net45,Web-Mgmt-Service -Verbose ; `
+ New-ItemProperty -Path HKLM:\software\microsoft\WebManagement\Server -Name EnableRemoteManagement -Value 1 -Force ; `
+ Set-Service -Name wmsvc -StartupType Automatic ; `
+ New-LocalUser iisadmin -Password ( 'P@ssword!' | ConvertTo-SecureString -AsPlainText -Force) ; `
+ Add-LocalGroupMember -Group Administrators -Member iisadmin `
+"
+
+#RUN C:\source\dotnet-hosting-3.1.5-win.exe /quiet
+
+
+ENTRYPOINT "ping -t localhost > NULL"

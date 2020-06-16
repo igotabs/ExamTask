@@ -1,0 +1,13 @@
+# escape=`
+
+FROM mcr.microsoft.com/windows/servercore:ltsc2019
+
+ADD source c:\source
+
+RUN C:\source\sql\SETUP.exe /Q /ACTION=INSTALL /FEATURES=SQLENGINE /INSTANCENAME=MSSQLSERVER /SECURITYMODE=SQL /SAPWD="P@ssword!" /SQLSVCACCOUNT="NT AUTHORITY\System" /AGTSVCACCOUNT="NT AUTHORITY\System" /SQLSYSADMINACCOUNTS="BUILTIN\Administrators" /IACCEPTSQLSERVERLICENSETERMS=1 /TCPENABLED=1 /UPDATEENABLED=False
+#RUN C:\source\SQLEXPR_x64_ENU\SETUP.exe /ConfigurationFile=config.txt
+#RUN powershell -Command " `
+# Remove-Item C:\source -Recurse `
+#"
+
+ENTRYPOINT "ping -t localhost > NULL"

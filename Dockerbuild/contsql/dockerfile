@@ -1,0 +1,17 @@
+# escape=`
+
+FROM contsqlbuilder
+
+ENTRYPOINT powershell -Command " `
+ Invoke-Sqlcmd -Query """CREATE DATABASE MyApp ON (FILENAME='C:\volsql\myapp.mdf'),(FILENAME='C:\volsql\myapp_log.ldf') FOR ATTACH;""" ; `
+ Invoke-Sqlcmd -Query """USE MyApp; EXEC sp_change_users_login 'Auto_Fix', 'myappdbuser', NULL, 'P@ssword!';""" ; `
+ ping -t localhost > NULL `
+"
+
+HEALTHCHECK --interval=2s `
+ CMD powershell -Command `
+  try { `
+   $result = Get-Service MSSQLServer ; `
+   if ($result.status -eq 'Running') { exit 0 } `
+   else { exit 1 } ; `
+  } catch { exit 1 }

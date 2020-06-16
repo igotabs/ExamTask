@@ -1,0 +1,108 @@
+1)
+docker image build  --tag contsqlbuilder .
+docker run --detach -it --name contsqlbuilder --hostname contsqlbuilder --network prodnet --ip 192.168.3.202 contsqlbuilder 
+
+2)
+docker image build  --tag contiisbuilder .
+docker run --detach -it --name contiisbuilder --hostname contiisbuilder --network prodnet --ip 192.168.3.201 contiisbuilder 
+
+
+
+
+docker network create --driver transparent --subnet 192.168.3.0/24 --gateway 192.168.3.2 -o com.docker.network.windowsshim.dnssuffix=abc.com -o com.docker.network.windowsshim.dnsservers=4.4.4.4,8.8.8.8  prodnet
+
+--correct
+docker network create --driver transparent --subnet 192.168.3.0/24 --gateway 192.168.3.2  prodnet
+
+
+docker run --detach -it --name contsqlbuilder --hostname contsqlbuilder --network prodnet --ip 192.168.3.202 contsqlbuilder 
+
+
+C:\publish>docker cp  . contiisbuilder:/inetpub/wwwroot
+
+C:\publish>docker exec -it contiisbuilder cmd
+
+delete all force
+rd /s /q .
+
+
+
+docker registr login info:
+docker registry name: 
+docker login examregistryolegsteblev.azurecr.io
+user: examRegistryolegsteblev
+pass: QEFaQGxoxu42gz0dI5fLKeYPN/B9KJJg
+
+
+
+docker tag contiisbuilder examregistryolegsteblev.azurecr.io/contiisbuilder
+docker push examregistryolegsteblev.azurecr.io/contiisbuilder
+
+docker tag contsqlbuilder examregistryolegsteblev.azurecr.io/contsqlbuilder
+docker push examregistryolegsteblev.azurecr.io/contsqlbuilder
+
+docker tag  mcr.microsoft.com/windows/servercore:ltsc2019  examregistryolegsteblev.azurecr.io/mcr.microsoft.com/windows/servercore:ltsc2019
+docker push examregistryolegsteblev.azurecr.io/mcr.microsoft.com/windows/servercore:ltsc2019
+
+
+
+
+
+
+--------
+#pull on client
+#user: examRegistryolegsteblev
+#pass: QEFaQGxoxu42gz0dI5fLKeYPN/B9KJJg
+
+docker login examregistryolegsteblev.azurecr.io
+docker network create --driver transparent --subnet 192.168.3.0/24 --gateway 192.168.3.2  prodnet
+docker pull examregistryolegsteblev.azurecr.io/mcr.microsoft.com/windows/servercore:ltsc2019
+docker pull examregistryolegsteblev.azurecr.io/contsqlbuilder
+docker pull examregistryolegsteblev.azurecr.io/contiisbuilder
+docker run --detach -it --name contsqlbuilder --hostname contsqlbuilder --network prodnet --ip 192.168.3.202 examregistryolegsteblev.azurecr.io/contsqlbuilder
+docker run --detach -it --name contiisbuilder --hostname contiisbuilder --network prodnet --ip 192.168.3.201 examregistryolegsteblev.azurecr.io/contiisbuilder
+
+
+
+
+
+
+
+CREATE TABLE [dbo].[Orders](
+	[SalesOrderID] [nvarchar](max),
+	[RevisionNumber] [nvarchar](max) NULL,
+	[Status] [nvarchar](max) NULL,
+	[OnlineOrderFlag] [nvarchar](max) NULL,
+	[SalesOrderNumber] [nvarchar](max) NULL,
+	[InvoiceOrderNumber] int NULL,
+	[AccountNumber] [nvarchar](max) NULL,
+	[CreditCardApprovalCode] [nvarchar](max) NULL,
+	[SubTotal] [nvarchar](max) NULL,
+	[TaxAmt] [nvarchar](max) NULL,
+	[Freight] [nvarchar](max) NULL,
+	[TotalDue] [nvarchar](max) NULL,
+	Id int IDENTITY (1,1) NOT NULL
+	 CONSTRAINT PK_Id PRIMARY KEY CLUSTERED (Id)
+)
+
+
+
+
+
+для правильного коммита изменений
+
+docker registr login info:
+docker registry name: 
+docker login examregistryolegsteblev.azurecr.io
+user: examRegistryolegsteblev
+pass: QEFaQGxoxu42gz0dI5fLKeYPN/B9KJJg
+
+
+
+docker tag contiisbuilder examregistryolegsteblev.azurecr.io/contiisbuilder
+docker push examregistryolegsteblev.azurecr.io/contiisbuilder
+
+
+
+docker commit 5c517185425c examregistryolegsteblev.azurecr.io/contsqlbuilder
+где имя контей
